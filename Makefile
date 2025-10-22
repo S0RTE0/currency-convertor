@@ -1,6 +1,6 @@
 .PHONY: run
 
 run:
-	python3 src/main.py
+	python src/main.py
 
 default: run
