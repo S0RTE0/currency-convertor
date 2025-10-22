@@ -12,6 +12,7 @@ class Api:
             lst.append(code)
         return lst
     
-    def get_currency(self, currency_from: str, currency_to: str, target: float) -> float:
-        response = requests.get(f"{ALL_CURRENCIES_URL}/{currency_from}.min.json").json()
-        return response[currency_from][currency_to] * target
+    def get_currency(self, currency_from: str, currency_to: str, target: float):
+        response = requests.get(f"{ALL_CURRENCIES_URL}/{currency_from}.min.json")
+        json = response.json()
+        return json[currency_from][currency_to] * target, json["date"], response.status_code

@@ -39,6 +39,7 @@ class App:
 
         #lineEdit and Button "Convert"
         self.line_edit = ttk.TTkLineEdit(size=(20, 1))
+        self.line_edit.setInputType(ttk.TTkK.Input_Number)
         self.line_edit.textEdited.connect(self.line_edit_changed)
         self.button_convert = ttk.TTkButton(text="Convert!")
         self.button_convert.setEnabled(False)
@@ -85,13 +86,14 @@ class App:
                 self.root.quit()
     
     def convert(self):
-        user_input = self.line_edit.text()
+        user_input = str(self.line_edit.text()).strip()
         if user_input != "":
             user_input = float(user_input)
             code_from = self.combo_from.currentText()
             code_to = self.combo_to.currentText()
-            result = self.api.get_currency(code_from, code_to, user_input)
-            self.line_edit.setText(f"{result:.1f}  {code_to}")
+            result, date, status_code = self.api.get_currency(code_from, code_to, user_input)
+            self.line_edit.setText(f"{result:.1f}")
+            self.label_status.setText(f"{date}: {status_code}")
     
     def line_edit_changed(self):
         text = self.line_edit.text()
