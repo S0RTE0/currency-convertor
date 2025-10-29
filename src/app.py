@@ -1,6 +1,7 @@
 import TermTk as ttk
 from TermTk import TTkInput
 from api import Api
+from TermTk import TTkK
 
 
 class App:
@@ -13,7 +14,7 @@ class App:
         currencies = self.api.get_all_currencies() #Fetch currency codes from currency-api
 
         date = "YYYY-MM-DDD"
-        status = "OK"
+        status = "UNDEFINED"
         self.label_status = ttk.TTkLabel(text=f"{date}: {status}")
         self.label_status.setAlignment(ttk.TTkK.RIGHT_ALIGN)
 
@@ -64,13 +65,29 @@ class App:
         main_layout.addWidget(ttk.TTkSpacer())
         main_layout.addWidget(exchange_frame)
         main_layout.addWidget(ttk.TTkSpacer())
-        main_layout.addWidget(self.line_edit)
+
+        #Line Edit layout to center it in Main layout
+        line_edit_layout = ttk.TTkHBoxLayout()
+        line_edit_layout.addWidget(ttk.TTkSpacer())
+        line_edit_layout.addWidget(self.line_edit)
+        line_edit_layout.addWidget(ttk.TTkSpacer())
+        line_edit_frame = ttk.TTkFrame(layout=line_edit_layout, border=False)
+
+        main_layout.addWidget(line_edit_frame)
         main_layout.addWidget(ttk.TTkSpacer())
-        main_layout.addWidget(self.button_convert)
+
+        #Conver button layout to center it in Main layout
+        convert_layout = ttk.TTkHBoxLayout()
+        convert_layout.addWidget(ttk.TTkSpacer())
+        convert_layout.addWidget(self.button_convert)
+        convert_layout.addWidget(ttk.TTkSpacer())
+        convert_frame = ttk.TTkFrame(layout=convert_layout, border=False)
+
+        main_layout.addWidget(convert_frame)
         main_layout.addWidget(ttk.TTkSpacer())
 
         #Main frame
-        main_container = ttk.TTkFrame(layout=main_layout, border=False)
+        main_container = ttk.TTkFrame(layout=main_layout, border=True)
 
         #Root layout(main_container center allignment)
         root_layout = ttk.TTkHBoxLayout()
@@ -84,6 +101,11 @@ class App:
         if kevt is not None:
             if kevt.key == "q":
                 self.root.quit()
+            if kevt.key == TTkK.Key_Enter: #本可以做得更好，但它完成了任务，所以算了
+                if self.line_edit.text() != "0": 
+                    self.convert()
+                else:
+                    pass
     
     def convert(self):
         user_input = str(self.line_edit.text()).strip()
@@ -97,7 +119,7 @@ class App:
     
     def line_edit_changed(self):
         text = self.line_edit.text()
-        if text != "":
+        if text != "" or text != "0":
             self.button_convert.setEnabled(True)
         else:
             self.button_convert.setDisabled(True)
