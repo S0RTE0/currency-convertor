@@ -35,7 +35,7 @@ class App:
             size=(10, 1),
             list=currencies,
             index=0,
-            editable=False
+            editable=False,
         )
 
         #lineEdit and Button "Convert"
@@ -101,11 +101,10 @@ class App:
         if kevt is not None:
             if kevt.key == "q":
                 self.root.quit()
-            if kevt.key == TTkK.Key_Enter: #本可以做得更好，但它完成了任务，所以算了
-                if self.line_edit.text() != "0": 
-                    self.convert()
-                else:
-                    pass
+            if self.line_edit.hasFocus():
+                if kevt.key == TTkK.Key_Enter: #本可以做得更好，但它完成了任务，所以算了
+                    if float(self.line_edit.text()) != 0.0: 
+                        self.convert()
     
     def convert(self):
         user_input = str(self.line_edit.text()).strip()
@@ -119,10 +118,10 @@ class App:
     
     def line_edit_changed(self):
         text = self.line_edit.text()
-        if text != "" or text != "0":
-            self.button_convert.setEnabled(True)
-        else:
+        if text == "" or float(text) == 0.0:
             self.button_convert.setDisabled(True)
+        else:
+            self.button_convert.setEnabled(True)
     
     #Main loop
     def run(self):
