@@ -14,3 +14,7 @@ Currency Convertor — це десктопний застосунок для ш�
 
 📦 Необхідні бібліотеки (для Python-версії)
 - **pytermtk**
+
+# currency-convertor showcase
+https://github.com/user-attachments/assets/e0ce4f7b-c0e4-41b5-8313-d024b9d8006f
+
